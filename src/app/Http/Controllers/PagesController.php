@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 class PagesController extends Controller
 {
     public function index() {
-        $tittle = 'Index';
-        $paragraph = 'This is the index for the application';
+        $tittle = 'Github Repo Finder';
+        $paragraph = 'This could be a brief explanation about the application';
 
         return view('pages.index')->with([
             'tittle' => $tittle,
@@ -17,12 +17,16 @@ class PagesController extends Controller
     }
 
     public function details() {
-        $tittle = 'Details';
-        $paragraph = 'This is the repo details fetched from github';
+        $tittle = 'Main Features';
+        $features = [
+            'repo_finder' => 'Find the most popular Github repositories by language',
+            'login' => 'Login into the platform',
+            'register' => 'Register into the platform under a username and password',
+        ];
 
         return view('pages.details')->with([
             'tittle' => $tittle,
-            'paragraph' => $paragraph,
+            'features' => $features,
         ]);
     }
 
