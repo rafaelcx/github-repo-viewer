@@ -13,7 +13,7 @@
 
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ml-5">
-                <li><a class="p-2 text-dark" href="/">Home</a></li>
+                <li><a class="p-2 text-dark" href="/home">Home</a></li>
                 <li><a class="p-2 text-dark" href="/details">Details</a></li>
                 <li><a class="p-2 text-dark" href="/about">About</a></li>
             </ul>
