@@ -12,7 +12,19 @@ class HomeController extends Controller
     }
 
     public function index() {
-        return view('home.home');
+        $repo_info_list = [
+            [
+                'name' => 'Repository name',
+                'full_name' => 'author/RepositoryName',
+                'owner_login' => 'owner_login',
+                'html_url' => 'https://github.com/rafaelcx/github-repo-viewer',
+                'language' => 'php',
+            ],
+        ];
+
+        return view('home.home')->with([
+            'repo_info_list' => $repo_info_list,
+        ]);
     }
 
 }
