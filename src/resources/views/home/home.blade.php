@@ -17,6 +17,11 @@
                         </div>
                     </div>
                 @endforeach
+            @else
+                <div class="container">
+                    <h1>Oops!</h1>
+                    <p class="lead text-muted">No results were found :(</p>
+                </div>
             @endif
 
         </div>
