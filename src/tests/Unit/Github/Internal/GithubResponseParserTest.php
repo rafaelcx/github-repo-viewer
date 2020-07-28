@@ -11,15 +11,25 @@ class GithubResponseParserTest extends TestCase
 {
 
     public function testGithubResponseParser() {
-        $repo_name = 'Tetris';
-        $response = new Response(200, [], MockResponseHelper::getMockResponseWithData($repo_name));
+        $response_body = MockResponseHelper::getMockSuccessfulResponseWithData(
+            $name = 'Tetris',
+            $full_name = 'dtrupenn/Tetris',
+            $owner_login = 'dtrupenn',
+            $html_url = 'https://github.com/dtrupenn/Tetris',
+            $description = 'A C implementation of Tetris',
+            $stargazers_count = 1,
+            $language = 'Assembly'
+        );
+        $response = new Response(200, [], $response_body);
 
         $parsed_response = GithubResponseParser::parse($response);
-
-        $expected_parsed_response = [
-            'Tetris',
-        ];
-        $this->assertEquals($expected_parsed_response, $parsed_response);
+        $this->assertEquals($name,             $parsed_response[0]->getName());
+        $this->assertEquals($full_name,        $parsed_response[0]->getFullName());
+        $this->assertEquals($owner_login,      $parsed_response[0]->getOwnerLogin());
+        $this->assertEquals($html_url,         $parsed_response[0]->getHtmlUrl());
+        $this->assertEquals($description,      $parsed_response[0]->getDescription());
+        $this->assertEquals($stargazers_count, $parsed_response[0]->getStargazersCount());
+        $this->assertEquals($language,         $parsed_response[0]->getLanguage());
     }
 
     public function unsuccessfulHttpStatusCodeProvider(): iterable {

@@ -15,7 +15,7 @@ class GithubIntegrationTest extends TestCase
 
     public function testGithubIntegration_FetchAll() {
         $client = new GithubHttpClientForTests();
-        $mock_response = new Response(200, [], MockResponseHelper::getMockResponseWithData($name = 'Tetris'));
+        $mock_response = new Response(200, [], MockResponseHelper::getMockSuccessfulResponse());
         $client->pushMockResponse($mock_response);
 
         GithubHttpClientFactoryForTests::overrideClient($client);
@@ -23,11 +23,13 @@ class GithubIntegrationTest extends TestCase
         $integration = new GithubIntegration();
         $repo_list = $integration->fetchAll();
 
-        $expected_result = [
-            'Tetris',
-        ];
-
-        $this->assertEquals($expected_result, $repo_list);
+        $this->assertEquals('Tetris',                                                 $repo_list[0]->getName());
+        $this->assertEquals('dtrupenn/Tetris',                                        $repo_list[0]->getFullName());
+        $this->assertEquals('dtrupenn',                                               $repo_list[0]->getOwnerLogin());
+        $this->assertEquals('https://github.com/dtrupenn/Tetris',                     $repo_list[0]->getHtmlUrl());
+        $this->assertEquals('A C implementation of Tetris using Pennsim through LC4', $repo_list[0]->getDescription());
+        $this->assertEquals(1,                                                        $repo_list[0]->getStargazersCount());
+        $this->assertEquals('Assembly',                                               $repo_list[0]->getLanguage());
     }
 
     public function testGithubIntegration_FetchAll_TimeOutScenario() {
