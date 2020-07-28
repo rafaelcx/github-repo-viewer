@@ -3,7 +3,6 @@
 namespace Tests\Github\Internal;
 
 use App\Github\Internal\GithubRequestBuilder;
-use GuzzleHttp\Psr7\Request;
 use PHPUnit\Framework\TestCase;
 
 class GithubRequestBuilderTest extends TestCase
