@@ -10,7 +10,8 @@ class GithubIntegration
 {
 
     public function fetchAll(): array {
-        $request = GithubRequestBuilder::build();
+        $uri_query = '?q=language:php+language:javascript+language:python&sort=stars';
+        $request = GithubRequestBuilder::build($uri_query);
         $client = GithubHttpClientFactory::create();
         $response = $client->makeHttpRequest($request);
         return GithubResponseParser::parse($response);

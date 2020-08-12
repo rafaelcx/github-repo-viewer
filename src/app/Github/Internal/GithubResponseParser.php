@@ -30,7 +30,7 @@ class GithubResponseParser
         return $parsed_repository_list;
     }
 
-    private function getGithubRepoFromRequest(\stdClass $repository_from_request): GithubRepo {
+    private static function getGithubRepoFromRequest(\stdClass $repository_from_request): GithubRepo {
         return new GithubRepo(
             $repository_from_request->name ?? '',
             $repository_from_request->full_name ?? '',
