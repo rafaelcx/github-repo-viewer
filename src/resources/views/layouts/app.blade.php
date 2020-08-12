@@ -25,9 +25,9 @@
         @yield('content')
     </div>
 
-    <footer class="footer font-small blue">
+    <footer class="footer font-small black">
         <div class="footer-copyright text-center py-3">© 2020 Copyright:
-            <a href="https://mdbootstrap.com/">Bootstrap.com</a>
+            <a href="https://github.com/rafaelcx">Github.com</a>
         </div>
     </footer>
 </body>

@@ -20,4 +20,4 @@ Route::get('/details', 'PagesController@details');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/search', 'SearchController@index');

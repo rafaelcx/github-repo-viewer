@@ -7,7 +7,7 @@ use App\Github\GithubRepo;
 use App\Repository;
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class SearchController extends Controller
 {
 
     public function __construct() {
@@ -31,7 +31,7 @@ class HomeController extends Controller
             $repository_model->save();
         }
 
-        return view('home.home')->with('repo_info_list', $repo_info_list);
+        return view('search.search')->with('repo_info_list', $repo_info_list);
     }
 
 }

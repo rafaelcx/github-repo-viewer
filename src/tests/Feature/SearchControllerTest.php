@@ -12,7 +12,7 @@ use Tests\Support\Github\Internal\GithubHttpClientFactoryForTests;
 use Tests\Support\Github\Internal\GithubHttpClientForTests;
 use Tests\TestCase;
 
-class HomeControllerTest extends TestCase
+class SearchControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -33,7 +33,7 @@ class HomeControllerTest extends TestCase
         GithubHttpClientFactoryForTests::overrideClient($client);
 
         $user = factory(User::class)->create();
-        $response = $this->actingAs($user)->get('/home');
+        $response = $this->actingAs($user)->get('/search');
 
         $this->assertDatabaseCount(Repository::TABLE_NAME, 1);
 
@@ -42,13 +42,13 @@ class HomeControllerTest extends TestCase
     }
 
     public function testHomeControllerWhileNotAuthenticated_ShouldRedirectToLogin() {
-        $response = $this->get('/home');
+        $response = $this->get('/search');
         $response->assertRedirect('/login');
     }
 
     public function testHomeControllerWhileAuthenticated_ShouldGetHome() {
         $user = factory(User::class)->create();
-        $response = $this->actingAs($user)->get('/home');
+        $response = $this->actingAs($user)->get('/search');
         $response->assertStatus(200);
     }
 
