@@ -20,6 +20,22 @@ class SearchController extends Controller
         $github_integration = new GithubIntegration();
         $repo_info_list = $github_integration->fetchAll();
 
+        $this->multiInsertIgnoreRepositoryResource($repo_info_list);
+
+        return view('search.search')->with('repo_info_list', $repo_info_list);
+    }
+
+    public function query(Request $request) {
+        $search_query = $request->input('query') ?? '';
+        $github_integration = new GithubIntegration();
+        $repo_info_list = $github_integration->fetchWithQuery($search_query);
+
+        $this->multiInsertIgnoreRepositoryResource($repo_info_list);
+
+        return view('search.search')->with('repo_info_list', $repo_info_list);
+    }
+
+    private function multiInsertIgnoreRepositoryResource(array $repo_info_list): void {
         $multi_insert_params = [];
 
         /** @var GithubRepo $repo_info */
@@ -37,13 +53,6 @@ class SearchController extends Controller
         }
 
         DB::table(Repository::TABLE_NAME)->insertOrIgnore($multi_insert_params);
-
-        return view('search.search')->with('repo_info_list', $repo_info_list);
-    }
-
-    public function query(Request $request) {
-        $search_query = $request->input('query');
-        return view('search.search')->with('repo_info_list', []);
     }
 
 }
