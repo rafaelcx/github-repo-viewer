@@ -6,6 +6,7 @@ use App\Github\GithubIntegration;
 use App\Github\GithubRepo;
 use App\Repository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SearchController extends Controller
 {
@@ -18,18 +19,23 @@ class SearchController extends Controller
         $github_integration = new GithubIntegration();
         $repo_info_list = $github_integration->fetchAll();
 
+        $multi_insert_params = [];
+
         /** @var GithubRepo $repo_info */
         foreach ($repo_info_list as $repo_info) {
-            $repository_model = new Repository;
-            $repository_model->setAttribute('name', $repo_info->getName());
-            $repository_model->setAttribute('full_name', $repo_info->getFullName());
-            $repository_model->setAttribute('owner_login', $repo_info->getOwnerLogin());
-            $repository_model->setAttribute('html_url', $repo_info->getHtmlUrl());
-            $repository_model->setAttribute('description', $repo_info->getDescription());
-            $repository_model->setAttribute('stargazers_count', $repo_info->getStargazersCount());
-            $repository_model->setAttribute('language', $repo_info->getLanguage());
-            $repository_model->save();
+            $insert_params = [
+                'name'             => $repo_info->getName(),
+                'full_name'        => $repo_info->getFullName(),
+                'owner_login'      => $repo_info->getOwnerLogin(),
+                'html_url'         => $repo_info->getHtmlUrl(),
+                'description'      => $repo_info->getDescription(),
+                'stargazers_count' => $repo_info->getStargazersCount(),
+                'language'         => $repo_info->getLanguage(),
+            ];
+            array_push($multi_insert_params, $insert_params);
         }
+
+        DB::table(Repository::TABLE_NAME)->insertOrIgnore($multi_insert_params);
 
         return view('search.search')->with('repo_info_list', $repo_info_list);
     }
