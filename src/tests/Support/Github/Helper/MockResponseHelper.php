@@ -5,7 +5,7 @@ namespace Tests\Support\Github\Helper;
 class MockResponseHelper
 {
 
-    public static function getMockSuccessfulResponse(): string {
+    public static function getMockSuccessfulResponseBody(): string {
         return <<< JSON
 {
   "total_count": 40,
@@ -50,7 +50,7 @@ class MockResponseHelper
 JSON;
     }
 
-    public static function getMockSuccessfulResponseWithData(
+    public static function getMockSuccessfulResponseBodyWithData(
         string $name,
         string $full_name,
         string $owner_login,

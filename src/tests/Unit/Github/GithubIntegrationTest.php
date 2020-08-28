@@ -15,7 +15,7 @@ class GithubIntegrationTest extends TestCase
 
     public function testGithubIntegration_FetchAll() {
         $client = new GithubHttpClientForTests();
-        $mock_response = new Response(200, [], MockResponseHelper::getMockSuccessfulResponse());
+        $mock_response = new Response(200, [], MockResponseHelper::getMockSuccessfulResponseBody());
         $client->pushMockResponse($mock_response);
 
         GithubHttpClientFactoryForTests::overrideClient($client);

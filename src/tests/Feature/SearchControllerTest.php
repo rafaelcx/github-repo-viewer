@@ -16,10 +16,12 @@ class SearchControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testHomeController_Index() {
+    public function testSearchController_Index() {
+        $user = factory(User::class)->create();
         $client = new GithubHttpClientForTests();
+        GithubHttpClientFactoryForTests::overrideClient($client);
 
-        $mock_response = MockResponseHelper::getMockSuccessfulResponseWithData(
+        $mock_response = MockResponseHelper::getMockSuccessfulResponseBodyWithData(
             $name = 'Tetris',
             $full_name = 'dtrupenn/Tetris',
             $owner_login = 'dtrupenn',
@@ -28,25 +30,35 @@ class SearchControllerTest extends TestCase
             $stargazers_count = 1,
             $language = 'assembly'
         );
-
         $client->pushMockResponse(new Response(200, [], $mock_response));
-        GithubHttpClientFactoryForTests::overrideClient($client);
 
-        $user = factory(User::class)->create();
         $response = $this->actingAs($user)->get('/search');
 
         $this->assertDatabaseCount(Repository::TABLE_NAME, 1);
-
-        $expected_info_at_view = new GithubRepo($name, $full_name, $owner_login, $html_url, $description, $stargazers_count, $language);
-        $response->assertViewHas('repo_info_list', [$expected_info_at_view]);
+        $expected_resource_at_view = new GithubRepo($name, $full_name, $owner_login, $html_url, $description, $stargazers_count, $language);
+        $response->assertViewHas('repo_info_list', [$expected_resource_at_view]);
     }
 
-    public function testHomeControllerWhileNotAuthenticated_ShouldRedirectToLogin() {
+    public function testSearchController_ShouldNotPersistDuplicatedResource() {
+        $user = factory(User::class)->create();
+        $client = new GithubHttpClientForTests();
+        GithubHttpClientFactoryForTests::overrideClient($client);
+
+        $client->pushMockResponse(new Response(200, [], MockResponseHelper::getMockSuccessfulResponseBody()));
+        $this->actingAs($user)->get('/search');
+        $this->assertDatabaseCount(Repository::TABLE_NAME, 1);
+
+        $client->pushMockResponse(new Response(200, [], MockResponseHelper::getMockSuccessfulResponseBody()));
+        $this->actingAs($user)->get('/search');
+        $this->assertDatabaseCount(Repository::TABLE_NAME, 1);
+    }
+
+    public function testSearchControllerWhileNotAuthenticated_ShouldRedirectToLogin() {
         $response = $this->get('/search');
         $response->assertRedirect('/login');
     }
 
-    public function testHomeControllerWhileAuthenticated_ShouldGetHome() {
+    public function testSearchControllerWhileAuthenticated_ShouldGetSearch() {
         $user = factory(User::class)->create();
         $response = $this->actingAs($user)->get('/search');
         $response->assertStatus(200);

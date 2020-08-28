@@ -11,7 +11,7 @@ class GithubResponseParserTest extends TestCase
 {
 
     public function testGithubResponseParser() {
-        $response_body = MockResponseHelper::getMockSuccessfulResponseWithData(
+        $response_body = MockResponseHelper::getMockSuccessfulResponseBodyWithData(
             $name = 'Tetris',
             $full_name = 'dtrupenn/Tetris',
             $owner_login = 'dtrupenn',
