@@ -7,6 +7,7 @@ use App\Github\GithubRepo;
 use App\Repository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\Console\Input\Input;
 
 class SearchController extends Controller
 {
@@ -38,6 +39,11 @@ class SearchController extends Controller
         DB::table(Repository::TABLE_NAME)->insertOrIgnore($multi_insert_params);
 
         return view('search.search')->with('repo_info_list', $repo_info_list);
+    }
+
+    public function query(Request $request) {
+        $search_query = $request->input('query');
+        return view('search.search')->with('repo_info_list', []);
     }
 
 }

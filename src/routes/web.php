@@ -21,3 +21,4 @@ Route::get('/details', 'PagesController@details');
 Auth::routes();
 
 Route::get('/search', 'SearchController@index');
+Route::post('/search', 'SearchController@query');

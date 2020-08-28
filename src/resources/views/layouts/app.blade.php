@@ -26,8 +26,8 @@
     </div>
 
     <footer class="footer font-small black">
-        <div class="footer-copyright text-center py-3">© 2020 Copyright:
-            <a href="https://github.com/rafaelcx">Github.com</a>
+        <div class="container footer-copyright text-center py-3">
+            <span>© 2020 Copyright: <a href="https://github.com/rafaelcx">Github.com</a></span>
         </div>
     </footer>
 </body>

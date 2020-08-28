@@ -39,7 +39,7 @@ class SearchControllerTest extends TestCase
         $response->assertViewHas('repo_info_list', [$expected_resource_at_view]);
     }
 
-    public function testSearchController_ShouldNotPersistDuplicatedResource() {
+    public function testSearchController_Index_ShouldNotPersistDuplicatedResource() {
         $user = factory(User::class)->create();
         $client = new GithubHttpClientForTests();
         GithubHttpClientFactoryForTests::overrideClient($client);
@@ -51,6 +51,12 @@ class SearchControllerTest extends TestCase
         $client->pushMockResponse(new Response(200, [], MockResponseHelper::getMockSuccessfulResponseBody()));
         $this->actingAs($user)->get('/search');
         $this->assertDatabaseCount(Repository::TABLE_NAME, 1);
+    }
+
+    public function testSearchController_Query() {
+        $user = factory(User::class)->create();
+        $response = $this->actingAs($user)->post('/search');
+        $response->assertViewHas('repo_info_list', []);
     }
 
     public function testSearchControllerWhileNotAuthenticated_ShouldRedirectToLogin() {
