@@ -6,11 +6,11 @@
         <div class="col-md-8">
 
             <div class="container pb-md-5">
-                <h4 class="align-content-start">The worst way to find your favorite Github repositories!</h4>
+                <h4 class="align-content-start">The worst way to find your favorite language Github repositories!</h4>
                 <form action="/search" method="POST" role="search">
                     {{ csrf_field() }}
                     <div class="input-group">
-                        <input type="text" class="form-control" name="query" placeholder="Search repositories">
+                        <input type="text" class="form-control" name="query" placeholder="Search repositories by language">
                         <span class="input-group-btn pl-md-1">
                             <button type="submit" class="btn btn-primary ">
                                 <span>Search</span>
